@@ -13,16 +13,21 @@ export class Dashboard extends React.Component {
     logOut(){
         this.props.dispatch(clearAuth());
     }
-
-    areYouThere() {
-        return(
-            <div className="form-error" aria-live="polite">
-                <p>Are you still there?!?!?!</p>
-            </div>
-        )    
-    }    
+ 
     render() {
+        let idle;
 
+        function areYouThere(idle) {
+            let saySomething;
+            if(idle) { 
+            saySomething = (
+                <div className="form-error" aria-live="polite">
+                    <p>Are you still there?!?!?!</p>
+                </div>
+            )
+            return saySomething;
+        }; 
+        }
 
         return (
             <div className="dashboard">
@@ -33,9 +38,7 @@ export class Dashboard extends React.Component {
                     timeout={100 * 60 * 1}
                     onIdle={() => {
                         console.log('Alert triggered')
-                        return (
-                            <h1>This is a proper header</h1>
-                        )
+                        idle = true;
                         }}/>
                 <IdleTimer
                     timeout={200 * 60 * 1}
@@ -47,6 +50,7 @@ export class Dashboard extends React.Component {
                 <div className="dashboard-protected-data">
                     Protected data: {this.props.protectedData}
                 </div>
+                {this.saySomething}
             </div>
         );
     }
